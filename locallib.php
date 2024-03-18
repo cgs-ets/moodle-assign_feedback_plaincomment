@@ -178,6 +178,18 @@ class assign_feedback_plaincomment extends assign_feedback_plugin {
      */
     public function save_settings(stdClass $data) {
         $this->set_config('plaininline', !empty($data->assignfeedback_plaincomment_plaininline));
+
+        /*if (empty($data->assignfeedback_plaincomment_wordlimit) || empty($data->assignfeedback_plaincomment_wordlimit_enabled)) {
+            $wordlimit = 0;
+            $wordlimitenabled = 0;
+        } else {
+            $wordlimit = $data->assignfeedback_plaincomment_wordlimit;
+            $wordlimitenabled = 1;
+        }
+
+        $this->set_config('wordlimit', $wordlimit);
+        $this->set_config('wordlimitenabled', $wordlimitenabled);*/
+
         return true;
     }
 
@@ -200,6 +212,45 @@ class assign_feedback_plaincomment extends assign_feedback_plugin {
         $mform->setDefault('assignfeedback_plaincomment_plaininline', $default);
         // Disable plain online if plain feedback plugin is disabled.
         $mform->hideIf('assignfeedback_plaincomment_plaininline', 'assignfeedback_plaincomment_enabled', 'notchecked');
+
+
+        /*$defaultwordlimit = $this->get_config('wordlimit') == 0 ? '' : $this->get_config('wordlimit');
+        $defaultwordlimitenabled = $this->get_config('wordlimitenabled');
+
+        $options = array('size' => '6', 'maxlength' => '6');
+        $name = get_string('wordlimit', 'assignfeedback_plaincomment');
+
+        // Create a text box that can be enabled/disabled for plaintext word limit.
+        $wordlimitgrp = array();
+        $wordlimitgrp[] = $mform->createElement('text', 'assignfeedback_plaincomment_wordlimit', '', $options);
+        $wordlimitgrp[] = $mform->createElement('checkbox', 'assignfeedback_plaincomment_wordlimit_enabled',
+                '', get_string('enable'));
+        $mform->addGroup($wordlimitgrp, 'assignfeedback_plaincomment_wordlimit_group', $name, ' ', false);
+        $mform->addHelpButton('assignfeedback_plaincomment_wordlimit_group',
+                              'wordlimit',
+                              'assignfeedback_plaincomment');
+        $mform->disabledIf('assignfeedback_plaincomment_wordlimit',
+                           'assignfeedback_plaincomment_wordlimit_enabled',
+                           'notchecked');
+        $mform->hideIf('assignfeedback_plaincomment_wordlimit',
+                       'assignfeedback_plaincomment_enabled',
+                       'notchecked');
+
+        // Add numeric rule to text field.
+        $wordlimitgrprules = array();
+        $wordlimitgrprules['assignfeedback_plaincomment_wordlimit'][] = array(null, 'numeric', null, 'client');
+        $mform->addGroupRule('assignfeedback_plaincomment_wordlimit_group', $wordlimitgrprules);
+
+        // Rest of group setup.
+        $mform->setDefault('assignfeedback_plaincomment_wordlimit', $defaultwordlimit);
+        $mform->setDefault('assignfeedback_plaincomment_wordlimit_enabled', $defaultwordlimitenabled);
+        $mform->setType('assignfeedback_plaincomment_wordlimit', PARAM_INT);
+        $mform->hideIf('assignfeedback_plaincomment_wordlimit_group',
+                       'assignfeedback_plaincomment_enabled',
+                       'notchecked');
+        */
+
+
    }
 
     /**
@@ -263,7 +314,7 @@ class assign_feedback_plaincomment extends assign_feedback_plugin {
         }
 
         $mform->addElement('textarea', 'assignfeedbackplaincomment_textarea', $this->get_name(), 'wrap="virtual" rows="10" cols="50"');
-
+        $mform->addRule('assignfeedbackplaincomment_textarea', "something", 'maxlength', 100, 'client');
         return true;
     }
 
@@ -278,6 +329,14 @@ class assign_feedback_plaincomment extends assign_feedback_plugin {
         global $DB;
 
         $feedbackplain = $this->get_feedback_plaincomment($grade->id);
+
+        // Check word count before submitting anything.
+        //$exceeded = $this->check_word_count(trim($data->assignfeedbackplaincomment_textarea));
+        //if ($exceeded) {
+        //    $this->set_error($exceeded);
+        //    return false;
+        //}
+
         if ($feedbackplain) {
             $feedbackplain->plaincomment = $data->assignfeedbackplaincomment_textarea;
             return $DB->update_record('assignfeedback_plaincomment', $feedbackplain);
@@ -380,6 +439,34 @@ class assign_feedback_plaincomment extends assign_feedback_plugin {
         return array(
             'assignfeedbackplaincomment_textarea' => new external_value(PARAM_RAW, 'The text for this feedback.')
         );
+    }
+
+    /**
+     * Compare word count of plaintext submission to word limit, and return result.
+     *
+     * @param string $feedacktext PLAINTEXT submission text from editor
+     * @return string Error message if limit is enabled and exceeded, otherwise null
+     */
+    public function check_word_count($feedacktext) {
+        global $OUTPUT;
+
+        $wordlimitenabled = $this->get_config('wordlimitenabled');
+        $wordlimit = $this->get_config('wordlimit');
+
+        if ($wordlimitenabled == 0) {
+            return null;
+        }
+
+        // Count words and compare to limit.
+        $wordcount = count_words($feedacktext);
+        if ($wordcount <= $wordlimit) {
+            return null;
+        } else {
+            $errormsg = get_string('wordlimitexceeded', 'assignfeedback_plaincomment',
+                    array('limit' => $wordlimit, 'count' => $wordcount));
+            //return $OUTPUT->error_text($errormsg);
+            return $errormsg;
+        }
     }
 
     /**

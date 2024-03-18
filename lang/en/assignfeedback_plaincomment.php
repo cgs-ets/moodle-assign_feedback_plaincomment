@@ -37,3 +37,8 @@ $string['plaininline'] = 'Plain text inline';
 $string['plaininline_help'] = 'If enabled, the submission text will be copied into the feedback plain text field during grading, making it easier to comment inline (using a different colour, perhaps) or to edit the original text.';
 $string['plaininlinedefault'] = 'Plain text inline by default';
 $string['plaininlinedefault_help'] = 'If set, this plain text inline functionality will be enabled by default for all new assignments.';
+$string['wordlimit'] = 'Word limit';
+$string['wordlimit_help'] = 'If plain text feedback is enabled, this is the maximum number ' .
+        'of words that is allowed in the feedback.';
+$string['wordlimitexceeded'] = 'The word limit for this feedback is {$a->limit} words and you ' .
+        'are attempting to submit {$a->count} words. Please review your feedback and try again.';
