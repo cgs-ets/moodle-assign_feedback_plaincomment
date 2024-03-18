@@ -24,10 +24,10 @@
 
 $string['default'] = 'Enabled by default';
 $string['default_help'] = 'If set, this feedback method will be enabled by default for all new assignments.';
-$string['enabled'] = 'Feedback plain comment';
-$string['enabled_help'] = 'If enabled, the marker can leave a plain comment for each submission. ';
-$string['pluginname'] = 'Feedback plain comment';
-$string['privacy:plainpath'] = 'Feedback plain comment';
+$string['enabled'] = 'Feedback plain text';
+$string['enabled_help'] = 'If enabled, the marker can leave a plain text comment for each submission. ';
+$string['pluginname'] = 'Feedback plain text';
+$string['privacy:plainpath'] = 'Feedback plain text';
 $string['privacy:metadata:assignmentid'] = 'Assignment ID';
 $string['privacy:metadata:plainpurpose'] = 'The plain text.';
 $string['privacy:metadata:filepurpose'] = 'Feedback files from the teacher for the student.';
@@ -36,4 +36,4 @@ $string['privacy:metadata:tablesummary'] = 'This stores plain comment made by th
 $string['plaininline'] = 'Plain text inline';
 $string['plaininline_help'] = 'If enabled, the submission text will be copied into the feedback plain text field during grading, making it easier to comment inline (using a different colour, perhaps) or to edit the original text.';
 $string['plaininlinedefault'] = 'Plain text inline by default';
-$string['plaininlinedefault_help'] = 'If set, this plain inline functionality will be enabled by default for all new assignments.';
+$string['plaininlinedefault_help'] = 'If set, this plain text inline functionality will be enabled by default for all new assignments.';

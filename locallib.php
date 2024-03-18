@@ -301,8 +301,8 @@ class assign_feedback_plaincomment extends assign_feedback_plugin {
         $feedbackplaincomment = $this->get_feedback_plaincomment($grade->id);
         if ($feedbackplaincomment) {
             // Show the view all link if the text has been shortened.
-            $short = shorten_text($text, 140);
-            $showviewlink = $short != $feedbackplaincomment;
+            $short = shorten_text($feedbackplaincomment->plaincomment, 140);
+            $showviewlink = $short != $feedbackplaincomment->plaincomment;
             return $short;
         }
         return '';
@@ -317,7 +317,7 @@ class assign_feedback_plaincomment extends assign_feedback_plugin {
     public function view(stdClass $grade) {
         $feedbackplaincomment = $this->get_feedback_plaincomment($grade->id);
         if ($feedbackplaincomment) {
-            return $feedbackplaincomment;
+            return $feedbackplaincomment->plaincomment;
         }
         return '';
     }
