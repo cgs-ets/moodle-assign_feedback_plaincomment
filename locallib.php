@@ -314,7 +314,7 @@ class assign_feedback_plaincomment extends assign_feedback_plugin {
         }
 
         $mform->addElement('textarea', 'assignfeedbackplaincomment_textarea', $this->get_name(), 'wrap="virtual" rows="10" cols="50"');
-        $mform->addRule('assignfeedbackplaincomment_textarea', "something", 'maxlength', 100, 'client');
+        //$mform->addRule('assignfeedbackplaincomment_textarea', "something", 'maxlength', 100, 'client');
         return true;
     }
 
