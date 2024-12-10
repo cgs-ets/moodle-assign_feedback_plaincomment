@@ -42,3 +42,4 @@ $string['wordlimit_help'] = 'If plain text feedback is enabled, this is the maxi
         'of words that is allowed in the feedback.';
 $string['wordlimitexceeded'] = 'The word limit for this feedback is {$a->limit} words and you ' .
         'are attempting to submit {$a->count} words. Please review your feedback and try again.';
+$string['cron_copy_to_gradefeedback'] = 'Copy plain comment fedback to grade grades feedback';

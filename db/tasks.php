@@ -15,15 +15,21 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This file contains the version information for the plaincomment feedback plugin
+ * Task schedule configuration for the submission_plaintext plugin.
  *
- * @package   assignfeedback_plaincomment
- * @copyright 2024 Michael Vangelovski
+ * @package   feedback_plaincomment
+ * @copyright 2024, Veronica Bermegui
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
-$plugin->version   = 2024121002;
-$plugin->requires  = 2018051703;
-$plugin->component = 'assignfeedback_plaincomment';
+$tasks = [
+    [
+        'classname' => 'assignfeedback_plaincomment\task\cron_copy_to_gradefeedback',
+        'blocking' => 0,
+        'minute' => '*',
+        'hour' => '*',
+        'day' => '*',
+        'month' => '*',
+        'dayofweek' => '*',
+    ],
+];
