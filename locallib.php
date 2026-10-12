@@ -69,7 +69,7 @@ class assign_feedback_plaincomment extends assign_feedback_plugin {
      * @param mixed $grade - The grade data - may be null if there are no grades for this user (yet)
      * @return mixed - A html string containing the html form elements required for quickgrading
      */
-    public function get_quickgrading_html($userid, $grade) {
+    public function get_quickgrading_html($userid, $grade, string $colname = '') {
         $plaincomment = '';
         if ($grade) {
             $feedbackplaincomment = $this->get_feedback_plaincomment($grade->id);
